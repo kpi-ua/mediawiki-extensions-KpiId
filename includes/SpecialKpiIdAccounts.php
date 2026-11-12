@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\KpiId;
 use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\SpecialPage\SpecialPage;
-use MediaWiki\User\User;
+use MediaWiki\Title\Title;
 use MediaWiki\User\UserFactory;
 use OOUI\ButtonInputWidget;
 use StatusValue;
@@ -19,7 +19,12 @@ class SpecialKpiIdAccounts extends SpecialPage {
 	private const UNLINK_SALT = 'kpiid-unlink';
 
 	public function __construct( private readonly UserFactory $userFactory ) {
-		parent::__construct( 'KpiIdAccounts', Accounts::RIGHT );
+		parent::__construct( 'KpiIdAccounts' );
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return Accounts::RIGHT;
 	}
 
 	/** @inheritDoc */
@@ -172,8 +177,8 @@ class SpecialKpiIdAccounts extends SpecialPage {
 		$linkRenderer = $this->getLinkRenderer();
 		$body = '';
 		foreach ( $rows as $row ) {
-			$user = User::newFromRow( $row );
-			$cells = Html::rawElement( 'td', [], $linkRenderer->makeLink( $user->getUserPage(), $user->getName() ) )
+			$userPage = Title::makeTitle( NS_USER, $row->user_name );
+			$cells = Html::rawElement( 'td', [], $linkRenderer->makeLink( $userPage, $row->user_name ) )
 				. Html::element( 'td', [], $row->up_value )
 				. Html::element( 'td', [], $row->user_real_name )
 				. Html::element( 'td', [], $row->user_email )
