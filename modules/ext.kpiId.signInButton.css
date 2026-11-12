@@ -1,0 +1,11 @@
+/*
+ * MediaWiki's link colours (a:link, a:visited) and its underline on hover outrank the single class
+ * of KPI ID's button, and its caption and coat of arms (currentColor) turned blue.
+ */
+a.__kpi_id_brand:link,
+a.__kpi_id_brand:visited,
+a.__kpi_id_brand:hover,
+a.__kpi_id_brand:active {
+	color: #fff;
+	text-decoration: none;
+}

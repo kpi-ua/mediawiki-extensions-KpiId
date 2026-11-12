@@ -31,6 +31,9 @@
 		"ext.kpiId.signInButton": {
 			"scripts": [
 				"ext.kpiId.signInButton.js"
+			],
+			"styles": [
+				"ext.kpiId.signInButton.css"
 			]
 		}
 	},

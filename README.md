@@ -19,7 +19,8 @@ It builds on [PluggableAuth](https://www.mediawiki.org/wiki/Extension:PluggableA
 - On a wiki that people must sign in to read, the "login required" page shows KPI ID's sign-in button, the one
   its [button wizard](https://auth.kpi.ua/uk/button-wizard) hands out: the extension wraps that page's sign-in
   link (`kpiid-loginreqpagetext`) in the button's element and loads `kpi-id-signin.js` from the KPI ID issuer.
-  The button leads to `Special:UserLogin` with the page to return to; without the script the plain link stays.
+  The button leads to `Special:UserLogin` with the page to return to; without the script the plain link stays. A
+  small stylesheet keeps the skin's link colours and hover underline off the button.
 - The sign-in uses the authorization code flow with PKCE (`S256`).
 
 ## Requirements
