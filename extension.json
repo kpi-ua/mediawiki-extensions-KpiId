@@ -1,0 +1,54 @@
+{
+	"name": "KpiId",
+	"version": "0.1.0",
+	"author": [
+		"Igor Sikorsky Kyiv Polytechnic Institute"
+	],
+	"url": "https://github.com/kpi-ua/mediawiki-extensions-KpiId",
+	"descriptionmsg": "kpiid-desc",
+	"license-name": "MPL-2.0",
+	"type": "other",
+	"requires": {
+		"MediaWiki": ">= 1.42.0",
+		"extensions": {
+			"PluggableAuth": ">= 7.5.0",
+			"OpenID Connect": ">= 8.3.0"
+		}
+	},
+	"MessagesDirs": {
+		"KpiId": [
+			"i18n"
+		]
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\KpiId\\": "includes/"
+	},
+	"callback": "MediaWiki\\Extension\\KpiId\\Hooks::onRegistration",
+	"HookHandlers": {
+		"main": {
+			"class": "MediaWiki\\Extension\\KpiId\\Hooks"
+		}
+	},
+	"Hooks": {
+		"PluggableAuthUserAuthorization": "main",
+		"SaveUserOptions": "main",
+		"GetFullURL": "main",
+		"TestCanonicalRedirect": "main",
+		"MessageCacheFetchOverrides": "main"
+	},
+	"config": {
+		"KpiIdProviderUrl": {
+			"description": "KPI ID issuer. Falls back to the KPIID_PROVIDER_URL environment variable, then to production KPI ID.",
+			"value": null
+		},
+		"KpiIdClientId": {
+			"description": "Application id registered in KPI ID. Falls back to the KPIID_CLIENT_ID environment variable.",
+			"value": null
+		},
+		"KpiIdClientSecret": {
+			"description": "Application secret registered in KPI ID. Falls back to the KPIID_CLIENT_SECRET environment variable.",
+			"value": null
+		}
+	},
+	"manifest_version": 2
+}

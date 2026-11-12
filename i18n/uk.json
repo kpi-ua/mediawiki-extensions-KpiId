@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Igor Sikorsky Kyiv Polytechnic Institute"
+		]
+	},
+	"kpiid-desc": "Вхід через KPI ID для облікових записів, які адміністратор пов'язав з EMPLOYEE_ID",
+	"kpiid-login-button": "Увійти через KPI ID",
+	"kpiid-not-authorized": "Ваш обліковий запис KPI ID не має доступу до цієї вікі. Попросіть адміністратора вікі пов'язати його з вашим обліковим записом у вікі."
+}

@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Igor Sikorsky Kyiv Polytechnic Institute"
+		]
+	},
+	"kpiid-desc": "{{desc|name=KpiId|url=https://github.com/kpi-ua/mediawiki-extensions-KpiId}}",
+	"kpiid-login-button": "Label of the button on Special:UserLogin that starts the sign-in through KPI ID, the university's single sign-on.",
+	"kpiid-not-authorized": "Shown on Special:UserLogin instead of {{msg-mw|pluggableauth-not-authorized}} when KPI ID confirmed the person but no wiki account holds their EMPLOYEE_ID.\n\nParameters:\n* $1 – unused; the name PluggableAuth would have used"
+}
