@@ -3,6 +3,7 @@
 namespace MediaWiki\Extension\KpiId;
 
 use MediaWiki\Extension\PluggableAuth\Hook\PluggableAuthUserAuthorization;
+use MediaWiki\Hook\BeforePageDisplayHook;
 use MediaWiki\Hook\GetFullURLHook;
 use MediaWiki\Hook\TestCanonicalRedirectHook;
 use MediaWiki\Language\Hook\MessageCacheFetchOverridesHook;
@@ -16,7 +17,8 @@ class Hooks implements
 	SaveUserOptionsHook,
 	GetFullURLHook,
 	TestCanonicalRedirectHook,
-	MessageCacheFetchOverridesHook
+	MessageCacheFetchOverridesHook,
+	BeforePageDisplayHook
 {
 
 	public const CONFIG_ID = 'KPI ID';
@@ -99,12 +101,36 @@ class Hooks implements
 	}
 
 	/**
-	 * PluggableAuth's refusal says only that the user is not authorised; ours says what to do.
+	 * PluggableAuth's refusal says only that the user is not authorised; ours says what to do. The
+	 * "login required" page gets the KPI ID button, while KPI ID is configured.
 	 *
 	 * @inheritDoc
 	 */
 	public function onMessageCacheFetchOverrides( array &$keys ): void {
 		$keys['pluggableauth-not-authorized'] = 'kpiid-not-authorized';
+		if ( self::providerUrl() !== null ) {
+			$keys['loginreqpagetext'] = 'kpiid-loginreqpagetext';
+		}
+	}
+
+	/**
+	 * Loads the button script for readers who are not signed in; it acts only on the page that
+	 * carries the button's element (kpiid-loginreqpagetext).
+	 *
+	 * @inheritDoc
+	 */
+	public function onBeforePageDisplay( $out, $skin ): void {
+		$providerUrl = self::providerUrl();
+		if ( $providerUrl === null || $out->getUser()->isRegistered() ) {
+			return;
+		}
+		$out->addJsConfigVars( SignInButton::SCRIPT_VAR, SignInButton::scriptUrl( $providerUrl ) );
+		$out->addModules( SignInButton::MODULE );
+	}
+
+	/** @return string|null the KPI ID issuer, or null while KPI ID is not configured */
+	private static function providerUrl(): ?string {
+		return $GLOBALS['wgPluggableAuth_Config'][self::CONFIG_ID]['data']['providerURL'] ?? null;
 	}
 
 	/**

@@ -6,5 +6,6 @@
 	},
 	"kpiid-desc": "Sign-in through KPI ID for accounts an administrator has linked to an EMPLOYEE_ID",
 	"kpiid-login-button": "Sign in with KPI ID",
-	"kpiid-not-authorized": "Your KPI ID account has no access to this wiki. Ask a wiki administrator to link it to your wiki account."
+	"kpiid-not-authorized": "Your KPI ID account has no access to this wiki. Ask a wiki administrator to link it to your wiki account.",
+	"kpiid-loginreqpagetext": "Sign in with KPI ID to view the pages of this wiki.\n\n<div id=\"kpi_id_signin\" data-login-url=\"$2\" data-size=\"large\" data-locale=\"en\" data-caption=\"{{int:kpiid-login-button}}\">$1</div>"
 }

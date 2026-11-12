@@ -23,6 +23,17 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\KpiId\\": "includes/"
 	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "modules",
+		"remoteExtPath": "KpiId/modules"
+	},
+	"ResourceModules": {
+		"ext.kpiId.signInButton": {
+			"scripts": [
+				"ext.kpiId.signInButton.js"
+			]
+		}
+	},
 	"callback": "MediaWiki\\Extension\\KpiId\\Hooks::onRegistration",
 	"HookHandlers": {
 		"main": {
@@ -34,7 +45,8 @@
 		"SaveUserOptions": "main",
 		"GetFullURL": "main",
 		"TestCanonicalRedirect": "main",
-		"MessageCacheFetchOverrides": "main"
+		"MessageCacheFetchOverrides": "main",
+		"BeforePageDisplay": "main"
 	},
 	"config": {
 		"KpiIdProviderUrl": {
