@@ -10,7 +10,8 @@ It builds on [PluggableAuth](https://www.mediawiki.org/wiki/Extension:PluggableA
 ## How it works
 
 - Each allowed account carries one EMPLOYEE_ID, stored in `user_properties` under `kpiid-employee-id`. Only
-  the `KpiId:assign` maintenance script sets it: the preferences and the options API cannot change or reset it.
+  `Special:KpiIdAccounts` and the `KpiId:assign` maintenance script set it: the preferences and the options API
+  cannot change or reset it.
 - KPI ID returns the person's EMPLOYEE_IDs in the `employee_ids` claim (scope `employee_ids`). A sign-in is
   allowed only when exactly one account holds one of them, and only into that account.
 - The first sign-in links the KPI ID subject to the account (OpenID Connect's `openid_connect` table). Every
@@ -72,21 +73,31 @@ API.
 
 ## Giving access
 
+`Special:KpiIdAccounts` (Special pages → Users and rights) lists the linked accounts with their EMPLOYEE_ID,
+real name and email, and has a form with four fields:
+
+- **EMPLOYEE_ID** and **username**, required. The account is created without a password, since its owner signs
+  in through KPI ID, and linked to the EMPLOYEE_ID at once.
+- **Real name** and **email**, optional. The email counts as confirmed: an administrator typed it.
+- **Link an existing account**: link the account with that username instead of creating one.
+
+Each row has a button that removes the link; an administrator cannot remove their own. The page needs the
+`kpiid-manage` right, which only bureaucrats have by default. Every creation, link and removal, from the page or
+the script, goes to `Special:Log/kpiid`, which only holders of that right can read.
+
+The maintenance script does the same from the command line:
+
 ```bash
 php maintenance/run.php KpiId:assign --user 'Name' --employee-id 12345
 php maintenance/run.php KpiId:assign --user 'Name' --remove
 php maintenance/run.php KpiId:assign --list
 ```
 
-An EMPLOYEE_ID can belong to one account only; the script refuses a second one. To give access to someone
-without a wiki account, create the account first (`createAndPromote.php` or `Special:CreateAccount`).
+An EMPLOYEE_ID can belong to one account only, and an account has one EMPLOYEE_ID: both the page and the script
+refuse a second one, so changing an account's EMPLOYEE_ID is a removal and a new link. The script works on
+existing accounts only; create one on the page, or with `createAndPromote.php`.
 
-In the wiki.kbis.kpi.ua container the settings file is chosen by the entrypoint, so pass it to a maintenance
-script run through `docker exec`:
-
-```bash
-docker exec -e MW_CONFIG_FILE=/etc/mediawiki/LocalSettings.php <container> php maintenance/run.php KpiId:assign --list
-```
+In the wiki.kbis.kpi.ua container: `docker exec <container> php maintenance/run.php KpiId:assign --list`.
 
 ## Logs
 
@@ -101,7 +112,8 @@ composer test   # parallel-lint, minus-x, phpcs (MediaWiki rules), phpunit
 composer fix    # minus-x and phpcbf
 ```
 
-The unit tests cover the claim parsing and the protection of the stored EMPLOYEE_ID and run without MediaWiki.
+The unit tests cover the claim parsing, the check of a typed EMPLOYEE_ID and the protection of the stored one,
+and run without MediaWiki. The special page and the script are tested by hand on a local wiki.
 The sign-in itself is tested by hand against KPI ID's test environment.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to contribute.

@@ -23,6 +23,34 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\KpiId\\": "includes/"
 	},
+	"SpecialPages": {
+		"KpiIdAccounts": {
+			"class": "MediaWiki\\Extension\\KpiId\\SpecialKpiIdAccounts",
+			"services": [
+				"UserFactory"
+			]
+		}
+	},
+	"ExtensionMessagesFiles": {
+		"KpiIdAlias": "KpiId.alias.php"
+	},
+	"AvailableRights": [
+		"kpiid-manage"
+	],
+	"GroupPermissions": {
+		"bureaucrat": {
+			"kpiid-manage": true
+		}
+	},
+	"LogTypes": [
+		"kpiid"
+	],
+	"LogRestrictions": {
+		"kpiid": "kpiid-manage"
+	},
+	"LogActionsHandlers": {
+		"kpiid/*": "LogFormatter"
+	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "modules",
 		"remoteExtPath": "KpiId/modules"

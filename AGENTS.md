@@ -24,8 +24,13 @@ behaviour and the settings.
 - `extension.json` — registration, hooks, config defaults.
 - `includes/Hooks.php` — PluggableAuth configuration, authorization, the redirect URI fix, the denial message.
 - `includes/Matcher.php` — reading the `employee_ids` claim, the account lookup, the stored-property guard.
+- `includes/Accounts.php` — listing, creating, linking and unlinking accounts, and the `kpiid` log; the only code
+  that writes an account's EMPLOYEE_ID.
+- `includes/SpecialKpiIdAccounts.php`, `KpiId.alias.php` — `Special:KpiIdAccounts` on top of `Accounts`, behind the
+  `kpiid-manage` right.
+- `includes/EmployeeId.php` — the check of a typed EMPLOYEE_ID.
 - `includes/SignInButton.php`, `modules/` — KPI ID's button script on the "login required" page.
-- `maintenance/assign.php` — `KpiId:assign`, the only way to set an account's EMPLOYEE_ID.
+- `maintenance/assign.php` — `KpiId:assign`, the command-line twin of the page, also through `Accounts`.
 - `i18n/` — messages: `en.json`, `uk.json`, and their documentation in `qqq.json`.
 - `tests/phpunit/` — unit tests that run without MediaWiki.
 
@@ -53,7 +58,10 @@ Keep these when changing the code; each was found the hard way:
   refuses `text = integer`.
 - The redirect URI is the English `Special:PluggableAuthLogin` (`GetFullURL`), and that page is exempt from the
   canonical redirect (`TestCanonicalRedirect`); without the second hook the wiki loops.
-- Authorization is checked on every sign-in, not only the first, and never creates an account.
+- Authorization is checked on every sign-in, not only the first, and never creates an account. Accounts are
+  created by an administrator, on `Special:KpiIdAccounts`.
+- The `kpiid` log shows EMPLOYEE_IDs, so it stays restricted to `kpiid-manage` (`LogRestrictions`) and is not
+  sent to recent changes.
 
 ## Testing by hand
 

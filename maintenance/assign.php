@@ -8,9 +8,10 @@
 
 namespace MediaWiki\Extension\KpiId\Maintenance;
 
-use MediaWiki\Extension\KpiId\Hooks;
-use MediaWiki\Extension\KpiId\Matcher;
+use MediaWiki\Extension\KpiId\Accounts;
 use MediaWiki\Maintenance\Maintenance;
+use MediaWiki\Permissions\UltimateAuthority;
+use MediaWiki\User\User;
 
 // @codeCoverageIgnoreStart
 $IP = getenv( 'MW_INSTALL_PATH' );
@@ -34,49 +35,39 @@ class Assign extends Maintenance {
 
 	/** @inheritDoc */
 	public function execute() {
+		$accounts = Accounts::fromServices();
 		if ( $this->hasOption( 'list' ) ) {
-			$rows = $this->getPrimaryDB()->newSelectQueryBuilder()
-				->select( [ 'user_name', 'up_value' ] )
-				->from( 'user_properties' )
-				->join( 'user', null, 'user_id = up_user' )
-				->where( [ 'up_property' => Matcher::PROPERTY ] )
-				->orderBy( 'user_name' )
-				->caller( __METHOD__ )->fetchResultSet();
-			foreach ( $rows as $row ) {
+			foreach ( $accounts->linked() as $row ) {
 				$this->output( "{$row->up_value}\t{$row->user_name}\n" );
 			}
 			return true;
 		}
 
-		$services = $this->getServiceContainer();
-		$user = $services->getUserFactory()->newFromName( (string)$this->getOption( 'user', '' ) );
+		$user = $this->getServiceContainer()->getUserFactory()
+			->newFromName( (string)$this->getOption( 'user', '' ) );
 		if ( !$user || !$user->isRegistered() ) {
 			$this->fatalError( 'No such account: ' . $this->getOption( 'user' ) );
 		}
-		$options = $services->getUserOptionsManager();
-		Hooks::$allowPropertyWrite = true;
+		$performer = new UltimateAuthority( User::newSystemUser( User::MAINTENANCE_SCRIPT_USER, [ 'steal' => true ] ) );
 
 		if ( $this->hasOption( 'remove' ) ) {
-			$options->setOption( $user, Matcher::PROPERTY, null );
-			$options->saveOptions( $user );
+			$status = $accounts->unlink( $user, $performer );
+			if ( !$status->isGood() ) {
+				$this->fatalError( $status );
+			}
 			$this->output( "Removed the EMPLOYEE_ID from {$user->getName()}\n" );
 			return true;
 		}
 
-		$employeeId = trim( (string)$this->getOption( 'employee-id', '' ) );
-		if ( $employeeId === '' ) {
+		$employeeId = (string)$this->getOption( 'employee-id', '' );
+		if ( trim( $employeeId ) === '' ) {
 			$this->fatalError( 'Pass --employee-id, --remove or --list' );
 		}
-		$holders = array_diff(
-			Matcher::fromServices()->userIdsFor( [ $employeeId ] ),
-			[ $user->getId() ]
-		);
-		if ( $holders ) {
-			$this->fatalError( "EMPLOYEE_ID $employeeId already belongs to account #" . implode( ', #', $holders ) );
+		$status = $accounts->link( $user, $employeeId, $performer );
+		if ( !$status->isGood() ) {
+			$this->fatalError( $status );
 		}
-		$options->setOption( $user, Matcher::PROPERTY, $employeeId );
-		$options->saveOptions( $user );
-		$this->output( "{$user->getName()} now signs in with EMPLOYEE_ID $employeeId\n" );
+		$this->output( "{$user->getName()} now signs in with EMPLOYEE_ID " . trim( $employeeId ) . "\n" );
 		return true;
 	}
 }
