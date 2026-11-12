@@ -24,7 +24,7 @@ class Hooks implements
 	public const CONFIG_ID = 'KPI ID';
 	public const DEFAULT_PROVIDER_URL = 'https://auth.kpi.ua';
 
-	/** Set by the assign maintenance script; every other save keeps the stored EMPLOYEE_ID. */
+	/** Set while Accounts writes the EMPLOYEE_ID; every other save keeps the stored one. */
 	public static bool $allowPropertyWrite = false;
 
 	/**
@@ -134,9 +134,9 @@ class Hooks implements
 	}
 
 	/**
-	 * Only the assign script may change the EMPLOYEE_ID. The options API already refuses unknown
-	 * keys, but "Restore all default settings" in the preferences would delete it and lock the
-	 * person out; this keeps it whatever path the save comes from.
+	 * Only Accounts (the special page, the assign script) changes the EMPLOYEE_ID. The options API
+	 * already refuses unknown keys, but "Restore all default settings" in the preferences would
+	 * delete it and lock the person out; this keeps it whatever path the save comes from.
 	 *
 	 * @inheritDoc
 	 */
