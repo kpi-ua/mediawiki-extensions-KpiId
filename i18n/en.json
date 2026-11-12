@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Igor Sikorsky Kyiv Polytechnic Institute"
+		]
+	},
+	"kpiid-desc": "Sign-in through KPI ID for accounts an administrator has linked to an EMPLOYEE_ID",
+	"kpiid-login-button": "Sign in with KPI ID",
+	"kpiid-not-authorized": "Your KPI ID account has no access to this wiki. Ask a wiki administrator to link it to your wiki account."
+}

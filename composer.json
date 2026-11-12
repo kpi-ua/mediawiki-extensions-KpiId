@@ -1,0 +1,41 @@
+{
+	"name": "kpi-ua/mediawiki-extensions-kpiid",
+	"description": "MediaWiki sign-in through KPI ID for accounts linked to an EMPLOYEE_ID",
+	"type": "mediawiki-extension",
+	"license": "MPL-2.0",
+	"require-dev": {
+		"mediawiki/mediawiki-codesniffer": "52.0.1",
+		"mediawiki/minus-x": "2.0.1",
+		"php-parallel-lint/php-console-highlighter": "1.0.0",
+		"php-parallel-lint/php-parallel-lint": "1.4.0",
+		"phpunit/phpunit": "12.5.43"
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"MediaWiki\\Extension\\KpiId\\": "includes/",
+			"MediaWiki\\Extension\\KpiId\\Tests\\": "tests/phpunit/"
+		}
+	},
+	"config": {
+		"platform": {
+			"php": "8.3"
+		},
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"scripts": {
+		"test": [
+			"parallel-lint . --exclude vendor",
+			"minus-x check .",
+			"@phpcs",
+			"@phpunit"
+		],
+		"fix": [
+			"minus-x fix .",
+			"phpcbf"
+		],
+		"phpcs": "phpcs -sp --cache",
+		"phpunit": "phpunit"
+	}
+}
