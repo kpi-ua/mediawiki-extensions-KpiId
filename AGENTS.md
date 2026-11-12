@@ -56,7 +56,7 @@ Keep these when changing the code; each was found the hard way:
 
 ## Testing by hand
 
-Run `kpiua/wiki.kbis.kpi.ua` (it has PluggableAuth and OpenID Connect; plain `kpiua/mediawiki-pg` has not)
+Run `ghcr.io/kpi-ua/wiki.kbis.kpi.ua` (it has PluggableAuth and OpenID Connect; plain `kpiua/mediawiki-pg` has not)
 with this directory mounted over `/var/www/html/extensions/KpiId`, `PluggableAuth,OpenIDConnect,KpiId` added to
 `MW_EXTENSIONS` and a test application from KPI ID's test environment
 (`KPIID_PROVIDER_URL=https://auth.cloud.kpi.ua`, applications at https://manage-auth.cloud.kpi.ua). Keep the
