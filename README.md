@@ -33,9 +33,13 @@ wfLoadExtension( 'OpenIDConnect' );
 wfLoadExtension( 'KpiId' );
 ```
 
-With [kpiua/mediawiki-pg](https://github.com/kpi-ua/mediawiki-pg) that is
-`MW_EXTENSIONS=PluggableAuth,OpenIDConnect,KpiId`. The extension adds no tables, but run `update.php` once after
-enabling OpenID Connect for its `openid_connect` table.
+OpenID Connect needs its Composer dependencies (`composer install --no-dev` in its directory). If one of the
+three is missing, MediaWiki stops at startup with an error that names it.
+
+[kpiua/mediawiki-pg](https://github.com/kpi-ua/mediawiki-pg) ships none of them: an image built on it adds all
+three, pinned to commits, and loads them with `MW_EXTENSIONS=...,PluggableAuth,OpenIDConnect,KpiId`. The
+extension adds no tables, but run `update.php` once after enabling OpenID Connect for its `openid_connect`
+table.
 
 ## Configuration
 

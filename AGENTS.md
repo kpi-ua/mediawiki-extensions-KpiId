@@ -56,8 +56,9 @@ Keep these when changing the code; each was found the hard way:
 
 ## Testing by hand
 
-Run kpiua/mediawiki-pg with this directory mounted at `/var/www/html/extensions/KpiId`,
-`MW_EXTENSIONS=PluggableAuth,OpenIDConnect,KpiId` and a test application from KPI ID's test environment
+Run `kpiua/wiki.kbis.kpi.ua` (it has PluggableAuth and OpenID Connect; plain `kpiua/mediawiki-pg` has not)
+with this directory mounted over `/var/www/html/extensions/KpiId`, `PluggableAuth,OpenIDConnect,KpiId` added to
+`MW_EXTENSIONS` and a test application from KPI ID's test environment
 (`KPIID_PROVIDER_URL=https://auth.cloud.kpi.ua`, applications at https://manage-auth.cloud.kpi.ua). Keep the
 client secret in an env file outside the repository. After editing PHP in a running container run
 `apachectl -k graceful`: OPcache revalidates only every 60 seconds.
