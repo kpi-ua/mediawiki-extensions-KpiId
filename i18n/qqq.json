@@ -6,5 +6,6 @@
 	},
 	"kpiid-desc": "{{desc|name=KpiId|url=https://github.com/kpi-ua/mediawiki-extensions-KpiId}}",
 	"kpiid-login-button": "Label of the button on Special:UserLogin that starts the sign-in through KPI ID, the university's single sign-on.",
-	"kpiid-not-authorized": "Shown on Special:UserLogin instead of {{msg-mw|pluggableauth-not-authorized}} when KPI ID confirmed the person but no wiki account holds their EMPLOYEE_ID.\n\nParameters:\n* $1 – unused; the name PluggableAuth would have used"
+	"kpiid-not-authorized": "Shown on Special:UserLogin instead of {{msg-mw|pluggableauth-not-authorized}} when KPI ID confirmed the person but no wiki account holds their EMPLOYEE_ID.\n\nParameters:\n* $1 – unused; the name PluggableAuth would have used",
+	"kpiid-loginreqpagetext": "Shown instead of {{msg-mw|loginreqpagetext}} to a reader who is not signed in, while KPI ID sign-in is configured. Keep the <code><nowiki><div id=\"kpi_id_signin\"></nowiki></code> element and its attributes: KPI ID's button script replaces it with the sign-in button. Translate only the sentence and set <code>data-locale</code> to <code>uk</code> or <code>en</code>, the languages the button has.\n\nParameters:\n* $1 – link to [[Special:UserLogin]] with the text {{msg-mw|loginreqlink}}, shown where the button script does not load\n* $2 – URL of [[Special:UserLogin]] with the page to return to"
 }

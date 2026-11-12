@@ -24,6 +24,7 @@ behaviour and the settings.
 - `extension.json` — registration, hooks, config defaults.
 - `includes/Hooks.php` — PluggableAuth configuration, authorization, the redirect URI fix, the denial message.
 - `includes/Matcher.php` — reading the `employee_ids` claim, the account lookup, the stored-property guard.
+- `includes/SignInButton.php`, `modules/` — KPI ID's button script on the "login required" page.
 - `maintenance/assign.php` — `KpiId:assign`, the only way to set an account's EMPLOYEE_ID.
 - `i18n/` — messages: `en.json`, `uk.json`, and their documentation in `qqq.json`.
 - `tests/phpunit/` — unit tests that run without MediaWiki.

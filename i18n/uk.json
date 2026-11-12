@@ -6,5 +6,6 @@
 	},
 	"kpiid-desc": "Вхід через KPI ID для облікових записів, які адміністратор пов'язав з EMPLOYEE_ID",
 	"kpiid-login-button": "Увійти через KPI ID",
-	"kpiid-not-authorized": "Ваш обліковий запис KPI ID не має доступу до цієї вікі. Попросіть адміністратора вікі пов'язати його з вашим обліковим записом у вікі."
+	"kpiid-not-authorized": "Ваш обліковий запис KPI ID не має доступу до цієї вікі. Попросіть адміністратора вікі пов'язати його з вашим обліковим записом у вікі.",
+	"kpiid-loginreqpagetext": "Щоб переглядати сторінки цієї вікі, увійдіть через KPI ID.\n\n<div id=\"kpi_id_signin\" data-login-url=\"$2\" data-size=\"large\" data-locale=\"uk\" data-caption=\"{{int:kpiid-login-button}}\">$1</div>"
 }
