@@ -41,8 +41,8 @@ wfLoadExtension( 'KpiId' );
 OpenID Connect needs its Composer dependencies (`composer install --no-dev` in its directory). If one of the
 three is missing, MediaWiki stops at startup with an error that names it.
 
-[kpiua/mediawiki-pg](https://github.com/kpi-ua/mediawiki-pg) ships none of them: an image built on it adds all
-three, pinned to commits, and loads them with `MW_EXTENSIONS=...,PluggableAuth,OpenIDConnect,KpiId`. The
+The official `mediawiki` Docker image ships none of them: the wiki.kbis.kpi.ua image adds all three, pinned to
+commits, and loads them with `MW_EXTENSIONS=...,PluggableAuth,OpenIDConnect,KpiId`. The
 extension adds no tables, but run `update.php` once after enabling OpenID Connect for its `openid_connect`
 table.
 
@@ -81,7 +81,7 @@ php maintenance/run.php KpiId:assign --list
 An EMPLOYEE_ID can belong to one account only; the script refuses a second one. To give access to someone
 without a wiki account, create the account first (`createAndPromote.php` or `Special:CreateAccount`).
 
-In the kpiua/mediawiki-pg container the settings file is chosen by the entrypoint, so pass it to a maintenance
+In the wiki.kbis.kpi.ua container the settings file is chosen by the entrypoint, so pass it to a maintenance
 script run through `docker exec`:
 
 ```bash
